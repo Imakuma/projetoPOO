@@ -8,6 +8,15 @@
         private $idade;
         private $cpf;
 
+
+        function __construct ($nome, $idade, $cpf){
+            $this->nome = $nome;
+            $this->idade = $idade;
+            $this->cpf = $cpf;
+        }
+    
+
+
         //METODOS das classes sao as funcoes
 
         public function getNome(){
@@ -39,9 +48,23 @@
             $this->cpf=$cpf;
         }
 
-        public function cadastrarPessoa($con){
-            $this->nome;
-
-        }
+        // Como temos dois tipos de pessoas (usuario e fncionario) vamos escrever o metodo e sobrescrever em cada classe (polimorfismo)
+        public function cadastrarPessoa($con,$pessoa){
+            try{
+                $query=$con->prepare("INSERT INTO usuarios(nome, idade, cpf) VALUES(?,?,?)");
+                $query-> execute([
+                    $pessoa-> getNome(),
+                    $pessoa-> getIdade(),
+                    $pessoa-> getCpf(),
+                ]);
+                return $query;
+            }catch(PDOException $e){
+                return false;
+            }
         
+
+
+        }      
     }
+
+    ?>
