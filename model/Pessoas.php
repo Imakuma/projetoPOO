@@ -49,7 +49,7 @@
         }
 
         // Como temos dois tipos de pessoas (usuario e fncionario) vamos escrever o metodo e sobrescrever em cada classe (polimorfismo)
-        public function cadastrarPessoa($con,$pessoa){
+        public function cadastrarPessoa($con,$pessoa,$tipoPessoa){
             try{
                 $query=$con->prepare("INSERT INTO usuarios(nome, idade, cpf) VALUES(?,?,?)");
                 $query-> execute([

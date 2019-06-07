@@ -7,6 +7,7 @@
     <input type="number" name="idade" placeholder="Idade Pessoa">
     <input type="text" name="usuario" placeholder="Usuario">
     <input type="password" name="senha" placeholder="Senha">
+    <input type="number" name="salario" placeholder="Salario">
     <select name="tipoPessoa">
         <option value="usuario">Usuario</option>
         <option value="funcionario">Funcionario</option>

@@ -26,17 +26,18 @@ class Usuarios extends Pessoas {
         $this->senha = $senha;
     }
 
-    public function cadastrarPessoa($con,$pessoa){
+    public function cadastrarPessoa($con,$pessoa, $tipoPessoa){
         try{
             
-            $query=$con->prepare("INSERT INTO usuarios (nome, idade, cpf, usuario, senha) VALUES(?,?,?,?,?)");
+            $query=$con->prepare("INSERT INTO usuarios (nome, idade, cpf, usuario, senha,tipo_pessoa) VALUES(?,?,?,?,?,?)");
            
             $query->execute([
                 $pessoa->getNome(),
                 $pessoa->getIdade(),
                 $pessoa->getCpf(),
                 $pessoa->getLogin(),
-                $pessoa->getSenha()
+                $pessoa->getSenha(),
+                $tipoPessoa
             ]);
 
             return $query;
@@ -44,6 +45,7 @@ class Usuarios extends Pessoas {
            
            
         }catch(PDOException $e){
+            echo $e->getMessage;
             return false;
         }
     

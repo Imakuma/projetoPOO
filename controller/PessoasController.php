@@ -1,6 +1,7 @@
 <?php
 require_once "model/Pessoas.php";
 require_once "model/Usuarios.php";
+require_once "model/Funcionarios.php";
 require_once "model/conexao.php";
 
 class PessoasController {
@@ -21,6 +22,8 @@ class PessoasController {
                 $cpf = $_POST["cpf"];
                 $usuario = $_POST["usuario"];
                 $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
+                $salario = $_POST["salario"];
+                
                
                 if ($tipoPessoa == "usuario"){
                     // $novoUsuario = new Usuarios();
@@ -29,7 +32,7 @@ class PessoasController {
                     // $novoUsuario->setIdade("$_POST["idade"]");
                     // $novoUsuario->setCpf("$_POST["cpf"]")
 
-                    //No metodo construtor podemos substituir os sets acima por:
+                    //--------No metodo construtor podemos substituir os sets acima por:
                     
 
                     $novoUsuario = new Usuarios(
@@ -40,12 +43,14 @@ class PessoasController {
                         $senha
                     );
                     
-                    if($novoUsuario->cadastrarPessoa($con, $novoUsuario)){
-                       
-                        $_REQUEST["pessoa"] = $novoUsuario;
+                    if($novoUsuario->cadastrarPessoa($con, $novoUsuario,$tipoPessoa)){
 
+                        $_REQUEST["pessoa"] = $novoUsuario;
+                        
                         require_once "view/sucesso.php";
+                    
                     }else{
+
                         echo "deu ruim";
                     }
 
@@ -53,6 +58,26 @@ class PessoasController {
 
 
 
+                }elseif($tipoPessoa == "funcionario"){
+                    $novoFuncionario = new Funcionarios(
+                        $nome,
+                        $idade,
+                        $cpf,
+                        $usuario,
+                        $senha,
+                        $salario
+
+                    );
+                    if($novoFuncionario->cadastrarPessoa($con, $novoFuncionario, $tipoPessoa)){
+                        $_REQUEST["pessoa"] = $novoFuncionario;
+                        require_once "view/sucesso.php";
+
+                    }else{
+
+                        echo "deu ruim funcionario";
+                    }
+
+                    }
                 }
 
                 // $novaPessoa = new Pessoas();
@@ -61,19 +86,19 @@ class PessoasController {
                 // $novaPessoa->setCpf($_POST["cpf"]);
 
                 // $_REQUEST["pessoa"] = $novaPessoa;
-                $_REQUEST["pessoa"] = $novoUsuario;
+                // $_REQUEST["pessoa"] = $novoUsuario;
 
-                require_once "view/sucesso.php";
+                // require_once "view/sucesso.php";
 
 
 
-                break;
+                // break;
         }
         
     }
 
 
 
-}
+
 
 ?>
