@@ -20,14 +20,55 @@ class LoginController {
 
                 $query = $con->prepare ("SELECT *FROM usuarios WHERE usuario=?");
                 $query->execute(["$usuario"]);
-                $result = $query->fetchALL(PDO::FETCH_ASSOC);
+                $result = $query->fetch(PDO::FETCH_ASSOC);
 
-            var_dump($result);    
-            break;
-        }
-    }
+
+            
         
+            if(count($result)<=0){
+                echo "usuário não existe";
+                exit;
+            }else{
+                if(password_verify($senha, $result["senha"])){
+
+                    if($result["tipo_pessoa"]=="usuario"){
+                        $pessoa = new Usuarios(
+                            $result["nome"],
+                            $result["idade"],
+                            $result["cpf"],
+                            $result["usuario"],
+                            $result["senha"]
+                        );
+
+
+
+                    }else if($result["tipo_pessoa"]=="funcionario"){
+                        $pessoa = new Funcionarios(
+                            $result["nome"],
+                            $result["idade"],
+                            $result["cpf"],
+                            $result["usuario"],
+                            $result["senha"],
+                            $result["salario"]
+    
+                        );
+
+                    }
+                   
+                    $_REQUEST["pessoa"] = $pessoa;
+                    require_once "view/sucesso.php";
+                }else{
+                    echo "usuario ou senha incorreta verifique e tente novamente";
+                    exit;
+                }
+            }
+        }
+            
+        
+    }
 }
+        
+
 
 
 
